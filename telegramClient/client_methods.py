@@ -3,15 +3,15 @@ from telethon.tl.functions.channels import JoinChannelRequest, LeaveChannelReque
 from telethon.tl.functions.messages import ImportChatInviteRequest
 
 from config import API_ID, API_HASH
-from telegramClient.client_handlers import handlerSingle, handlerAlbum
+from telegramClient.client_handlers import handler_single, handler_album
 
 
 client = TelegramClient('test_tg', API_ID, API_HASH, device_model="iPhone 55 Pro", system_version="IOS 100.1")
 
 
 async def start_parsing():
-    client.add_event_handler(handlerAlbum, events.Album())
-    client.add_event_handler(handlerSingle, events.NewMessage(func=lambda e: e.grouped_id is None))
+    client.add_event_handler(handler_album, events.Album())
+    client.add_event_handler(handler_single, events.NewMessage(func=lambda e: e.grouped_id is None))
     await client.start()
     await client.run_until_disconnected()
 

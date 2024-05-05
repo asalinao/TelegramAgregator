@@ -3,7 +3,6 @@ from aiogram import Bot
 from aiogram.types import FSInputFile
 from aiogram.utils.media_group import MediaGroupBuilder
 from telethon import utils
-import os
 
 from database.db import get_subscribed_users, get_channel_link_by_id
 from config import BOT_TOKEN
@@ -18,7 +17,7 @@ def get_message_link(chat_id, message_id):
         return f"{chat_link}/{message_id}"
 
 
-async def handlerAlbum(event):
+async def handler_album(event):
     bot = Bot(token=BOT_TOKEN)
 
     chat_id = int(utils.resolve_id(event.chat_id)[0])
@@ -49,7 +48,7 @@ async def handlerAlbum(event):
         shutil.rmtree('./bufferdata/')
 
 
-async def handlerSingle(event):
+async def handler_single(event):
     bot = Bot(token=BOT_TOKEN)
 
     message = event.message
