@@ -19,6 +19,6 @@ dist/
 
 *.db
 
-*.session
+test_tg.session
 
 config.py
