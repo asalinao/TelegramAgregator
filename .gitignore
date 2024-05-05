@@ -16,5 +16,9 @@ dist/
 .cache/
 
 /.idea/
+
 *.db
+
+*.session
+
 config.py
