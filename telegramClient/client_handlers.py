@@ -67,15 +67,15 @@ async def handlerSingle(event):
 
     for user_id in users:
         if message.photo:
-            photo = await event.download_media()
+            photo = await event.download_media('./bufferdata/')
             await bot.send_photo(user_id, photo=FSInputFile(photo), caption=text, reply_markup=link_button(chat, link), parse_mode='Markdown')
-            os.remove(photo)
+            shutil.rmtree('./bufferdata/')
 
         elif message.document:
-            document = await event.download_media()
+            document = await event.download_media('./bufferdata/')
             await bot.send_document(user_id, document=FSInputFile(document), caption=text,
                                     reply_markup=link_button(chat, link), parse_mode='Markdown')
-            os.remove(document)
+            shutil.rmtree('./bufferdata/')
 
         else:
             await bot.send_message(user_id, text, reply_markup=link_button(chat, link), parse_mode='Markdown')
