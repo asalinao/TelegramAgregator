@@ -16,5 +16,5 @@ dist/
 .cache/
 
 
-.db
+subscriptions.db
 config.py
