@@ -15,6 +15,6 @@ dist/
 *.py,cover
 .cache/
 
-
+.idea/*
 *.db
 config.py
