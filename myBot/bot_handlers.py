@@ -108,7 +108,11 @@ async def go_back(callback: CallbackQuery):
 
 @router.callback_query(F.data == 'translate_text', StateFilter(default_state))
 async def translate_text_callback(callback: CallbackQuery):
-    text_to_translate = callback.message.caption
+    if callback.message.caption:
+        text_to_translate = callback.message.caption
+    else:
+        text_to_translate = callback.message.text
+
     translated_text = translate_text(text_to_translate)
 
     button = callback.message.reply_markup.inline_keyboard[0][0]

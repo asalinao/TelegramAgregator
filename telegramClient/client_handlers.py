@@ -21,16 +21,15 @@ async def handler_album(event):
     bot = Bot(token=BOT_TOKEN)
 
     chat_id = int(utils.resolve_id(event.chat_id)[0])
-    message_id = event.id
-
-    link = get_message_link(chat_id, message_id)
-
-    users = get_subscribed_users(chat_id)
-
+    message_id = event[0].id
+    chat = event.chat.title
     text = event.text
 
+    link = get_message_link(chat_id, message_id)
+    users = get_subscribed_users(chat_id)
+
     for user_id in users:
-        media_group = MediaGroupBuilder(caption=f'{text}\n\nAuthor`s channel link: t.me/{link.split("/")[-1]}')
+        media_group = MediaGroupBuilder()
 
         for media in event.__iter__():
             file = await media.download_media('./bufferdata/')
@@ -44,6 +43,12 @@ async def handler_album(event):
                 media_group.add_audio(media=FSInputFile(file))
 
         await bot.send_media_group(chat_id=user_id, media=media_group.build())
+        await bot.send_message(
+            user_id,
+            text,
+            reply_markup=link_button(chat, link),
+            parse_mode='Markdown'
+        )
 
         shutil.rmtree('./bufferdata/')
 
@@ -52,17 +57,14 @@ async def handler_single(event):
     bot = Bot(token=BOT_TOKEN)
 
     message = event.message
-
     chat = event.chat.title
-
     chat_id = int(utils.resolve_id(event.chat_id)[0])
     message_id = event.id
+    text = event.text
 
     link = get_message_link(chat_id, message_id)
 
     users = get_subscribed_users(chat_id)
-
-    text = event.text
 
     for user_id in users:
         if message.photo:
