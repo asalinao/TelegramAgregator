@@ -113,7 +113,10 @@ async def translate_text_callback(callback: CallbackQuery):
 
     button = callback.message.reply_markup.inline_keyboard[0][0]
 
-    await callback.message.edit_caption(caption=translated_text, reply_markup=translate_back(button))
+    if callback.message.caption:
+        await callback.message.edit_caption(caption=translated_text, reply_markup=translate_back(button))
+    else:
+        await callback.message.edit_text(text=translated_text, reply_markup=translate_back(button))
 
     add_message(message_id=callback.message.message_id, text=callback.message.md_text)
 
@@ -123,6 +126,9 @@ async def view_original_callback(callback: CallbackQuery):
     original_text = get_message_text(callback.message.message_id)
     button = callback.message.reply_markup.inline_keyboard[0][0]
 
-    await callback.message.edit_caption(caption=original_text, parse_mode="Markdown", reply_markup=second_link_button(button))
+    if callback.message.caption:
+        await callback.message.edit_caption(caption=original_text, parse_mode="Markdown", reply_markup=second_link_button(button))
+    else:
+        await callback.message.edit_text(text=original_text, parse_mode="Markdown", reply_markup=second_link_button(button))
     delete_message(callback.message.message_id)
 
