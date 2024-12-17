@@ -16,11 +16,11 @@ def get_message_link(chat_id, message_id):
         return f"t.me/c/{chat_id}/{message_id}"
     else:
         return f"{chat_link}/{message_id}"
-
+    
+    
+bot = Bot(token=BOT_TOKEN)  
 
 async def handler_album(event):
-    bot = Bot(token=BOT_TOKEN)
-
     chat_id = int(utils.resolve_id(event.chat_id)[0])
     message_id = event[0].id
     chat = event.chat.title
@@ -58,8 +58,6 @@ async def handler_album(event):
 
 
 async def handler_single(event):
-    bot = Bot(token=BOT_TOKEN)
-
     message = event.message
     chat = event.chat.title
     chat_id = int(utils.resolve_id(event.chat_id)[0])

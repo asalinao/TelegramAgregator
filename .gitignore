@@ -20,5 +20,6 @@ dist/
 *.db
 
 test_tg.session
+test_tg.session-journal
 
 config.py

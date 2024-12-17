@@ -45,7 +45,7 @@ async def show_channel_list(message: Message):
 
 
 @router.message(F.text == 'Show 24h wordcloud', StateFilter(default_state))
-async def show_channel_list(message: Message):
+async def show_wordcloud_24(message: Message):
     filename = f'plot{str(message.chat.id)}.png'
     cloud_generate(message.chat.id, filename)
 

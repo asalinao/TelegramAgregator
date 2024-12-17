@@ -261,5 +261,3 @@ def get_message_text(message_id):
     else:
         return None
 
-
-create_database()
