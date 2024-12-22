@@ -78,17 +78,17 @@ async def handler_single(event):
         keywords_string = " ".join(get_all_hotwords(text))
         add_message(chat_id, keywords_string)
 
-    for user_id in users:
-        if message.photo:
-            photo = await event.download_media()
+    if message.photo:
+        photo = await event.download_media()
+        for user_id in users:
             await bot.send_photo(user_id, photo=FSInputFile(photo), caption=text, reply_markup=link_button(chat, link), parse_mode='Markdown')
-            os.remove(photo)
-
-        elif message.document:
-            document = await event.download_media()
+        os.remove(photo)
+    elif message.document:
+        document = await event.download_media()
+        for user_id in users:
             await bot.send_document(user_id, document=FSInputFile(document), caption=text,
                                     reply_markup=link_button(chat, link), parse_mode='Markdown')
-            os.remove(document)
-
-        else:
+        os.remove(document)
+    else:
+        for user_id in users:
             await bot.send_message(user_id, text, reply_markup=link_button(chat, link), parse_mode='Markdown')
