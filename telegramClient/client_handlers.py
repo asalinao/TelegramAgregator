@@ -31,8 +31,9 @@ async def handler_album(event):
     link = get_message_link(chat_id, message_id)
     users = get_subscribed_users(chat_id)
 
-    keywords_string = " ".join(get_all_hotwords(text))
-    add_message(chat_id, keywords_string)
+    if type(text) == str:
+        keywords_string = " ".join(get_all_hotwords(text))
+        add_message(chat_id, keywords_string)
 
     for user_id in users:
         media_group = MediaGroupBuilder()
@@ -69,8 +70,9 @@ async def handler_single(event):
     link = get_message_link(chat_id, message_id)
     users = get_subscribed_users(chat_id)
 
-    keywords_string = " ".join(get_all_hotwords(text))
-    add_message(chat_id, keywords_string)
+    if type(text) == str:
+        keywords_string = " ".join(get_all_hotwords(text))
+        add_message(chat_id, keywords_string)
 
     for user_id in users:
         if message.photo:
