@@ -31,7 +31,7 @@ async def handler_album(event):
     link = get_message_link(chat_id, message_id)
     users = get_subscribed_users(chat_id)
 
-    if type(text) == str:
+    if text:
         keywords_string = " ".join(get_all_hotwords(text))
         add_message(chat_id, keywords_string)
 
@@ -70,7 +70,7 @@ async def handler_single(event):
     link = get_message_link(chat_id, message_id)
     users = get_subscribed_users(chat_id)
 
-    if type(text) == str:
+    if text:
         keywords_string = " ".join(get_all_hotwords(text))
         add_message(chat_id, keywords_string)
 
