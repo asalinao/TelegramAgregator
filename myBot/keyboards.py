@@ -1,6 +1,5 @@
 from aiogram.types import (KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup)
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-
 from myBot.callbackFactory import ButtonsCallbackFactory
 
 show_my_channel_list = KeyboardButton(text='Show my channel list')

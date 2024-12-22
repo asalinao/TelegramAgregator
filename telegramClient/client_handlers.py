@@ -1,4 +1,4 @@
-import shutil
+import os
 from aiogram import Bot
 from aiogram.types import FSInputFile
 from aiogram.utils.media_group import MediaGroupBuilder
@@ -35,20 +35,22 @@ async def handler_album(event):
         keywords_string = " ".join(get_all_hotwords(text))
         add_message(chat_id, keywords_string)
 
+    media_group = MediaGroupBuilder()
+    media_list = []
+
+    for media in event.__iter__():
+        file = await media.download_media()
+        media_list.append(file)
+        if media.photo:
+            media_group.add_photo(media=FSInputFile(file))
+        elif media.video:
+            media_group.add_video(media=FSInputFile(file))
+        elif media.document:
+            media_group.add_document(media=FSInputFile(file))
+        elif media.audio:
+            media_group.add_audio(media=FSInputFile(file))
+
     for user_id in users:
-        media_group = MediaGroupBuilder()
-
-        for media in event.__iter__():
-            file = await media.download_media('./bufferdata/')
-            if media.photo:
-                media_group.add_photo(media=FSInputFile(file))
-            elif media.video:
-                media_group.add_video(media=FSInputFile(file))
-            elif media.document:
-                media_group.add_document(media=FSInputFile(file))
-            elif media.audio:
-                media_group.add_audio(media=FSInputFile(file))
-
         await bot.send_media_group(chat_id=user_id, media=media_group.build())
         await bot.send_message(
             user_id,
@@ -57,7 +59,9 @@ async def handler_album(event):
             parse_mode='Markdown'
         )
 
-        shutil.rmtree('./bufferdata/')
+    for media in media_list:
+        os.remove(media)
+
 
 
 async def handler_single(event):
@@ -76,15 +80,15 @@ async def handler_single(event):
 
     for user_id in users:
         if message.photo:
-            photo = await event.download_media('./bufferdata/')
+            photo = await event.download_media()
             await bot.send_photo(user_id, photo=FSInputFile(photo), caption=text, reply_markup=link_button(chat, link), parse_mode='Markdown')
-            shutil.rmtree('./bufferdata/')
+            os.remove(photo)
 
         elif message.document:
-            document = await event.download_media('./bufferdata/')
+            document = await event.download_media()
             await bot.send_document(user_id, document=FSInputFile(document), caption=text,
                                     reply_markup=link_button(chat, link), parse_mode='Markdown')
-            shutil.rmtree('./bufferdata/')
+            os.remove(document)
 
         else:
             await bot.send_message(user_id, text, reply_markup=link_button(chat, link), parse_mode='Markdown')
