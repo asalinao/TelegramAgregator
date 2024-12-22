@@ -39,7 +39,7 @@ def second_link_button(button):
         url=button.url
     )
     builder.button(
-        text="translate_text",
+        text="Translate text",
         callback_data='translate_text'
     )
     builder.adjust(1)
