@@ -44,6 +44,14 @@ def create_database():
             )
         ''')
 
+         # Создание таблицы "Texts"
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS Texts (
+                message_id INTEGER PRIMARY KEY,
+                text TEXT
+            )
+        ''')
+
         # Сохранение изменений и закрытие соединения
         conn.commit()
         conn.close()
@@ -235,23 +243,37 @@ def add_message(channel_id, text):
     conn.close()
 
 
-def delete_message(message_id):
+def add_text(message_id, text):
     conn = sqlite3.connect('subscriptions.db')
     cursor = conn.cursor()
 
-    # Удаление сообщения из таблицы
-    cursor.execute('DELETE FROM Messages WHERE message_id = ?', (message_id,))
+    # Добавление сообщения в таблицу
+    cursor.execute('''
+            INSERT INTO Texts (message_id, text)
+            VALUES (?, ?)
+        ''', (message_id, text))
 
     conn.commit()
     conn.close()
 
 
-def get_message_text(message_id):
+def delete_text(message_id):
+    conn = sqlite3.connect('subscriptions.db')
+    cursor = conn.cursor()
+
+    # Удаление сообщения из таблицы
+    cursor.execute('DELETE FROM Texts WHERE message_id = ?', (message_id,))
+
+    conn.commit()
+    conn.close()
+
+
+def get_text(message_id):
     conn = sqlite3.connect('subscriptions.db')
     cursor = conn.cursor()
 
     # Получение текста сообщения по его ID
-    cursor.execute('SELECT text FROM Messages WHERE message_id = ?', (message_id,))
+    cursor.execute('SELECT text FROM Texts WHERE message_id = ?', (message_id,))
     message_text = cursor.fetchone()
 
     conn.close()
@@ -261,3 +283,4 @@ def get_message_text(message_id):
     else:
         return None
 
+create_database()

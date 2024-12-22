@@ -12,7 +12,7 @@ from services.translator import translate_text
 from telegramClient.client_methods import join_channel, leave_from_channel
 from myBot.states import FSM
 from database.db import add_user, add_channel_and_subscription, remove_subscription, get_user_subscribed_channels, \
-    check_channel_exists, get_message_text, add_message, delete_message
+    check_channel_exists, get_text, add_message, delete_text, add_text
 from services.wordcloud import cloud_generate
 
 
@@ -137,17 +137,17 @@ async def translate_text_callback(callback: CallbackQuery):
     else:
         await callback.message.edit_text(text=translated_text, reply_markup=translate_back(button))
 
-    add_message(message_id=callback.message.message_id, text=callback.message.md_text)
+    add_text(message_id=callback.message.message_id, text=callback.message.md_text)
 
 
 @router.callback_query(F.data == 'view_original', StateFilter(default_state))
 async def view_original_callback(callback: CallbackQuery):
-    original_text = get_message_text(callback.message.message_id)
+    original_text = get_text(callback.message.message_id)
     button = callback.message.reply_markup.inline_keyboard[0][0]
 
     if callback.message.caption:
         await callback.message.edit_caption(caption=original_text, parse_mode="Markdown", reply_markup=second_link_button(button))
     else:
         await callback.message.edit_text(text=original_text, parse_mode="Markdown", reply_markup=second_link_button(button))
-    delete_message(callback.message.message_id)
+    delete_text(callback.message.message_id)
 

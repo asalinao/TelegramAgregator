@@ -12,6 +12,8 @@ from services.keywords import get_all_hotwords
 
 def get_message_link(chat_id, message_id):
     chat_link = get_channel_link_by_id(chat_id)
+    if chat_link is None:
+        return
     if '+' in chat_link:
         return f"t.me/c/{chat_id}/{message_id}"
     else:
