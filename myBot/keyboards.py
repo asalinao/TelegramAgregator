@@ -24,7 +24,7 @@ def link_button(name, link):
         url=link
     )
     builder.button(
-        text="translate_text",
+        text="Translate text",
         callback_data='translate_text'
     )
     builder.adjust(1)
