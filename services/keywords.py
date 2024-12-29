@@ -53,6 +53,7 @@ def get_all_hotwords(text):
     flag = True
     if language == 'ru':
         nlp = spacy.load("ru_core_news_sm")
+        flag = False
     elif language == 'en':
         nlp = spacy.load("en_core_web_sm")
     else:
@@ -61,15 +62,15 @@ def get_all_hotwords(text):
         flag = False
 
     propn = set(get_hotwords(text, 'PROPN', nlp))
-    most_common_propn = Counter(propn).most_common(5)
+    most_common_propn = Counter(propn).most_common(3)
     most_common_propn = [word for word, _ in most_common_propn]
 
 
     if not flag:
         return most_common_propn
     
-    other = set(get_hotwords(text, ['ADJ','NOUN'], nlp))
-    most_common_other = Counter(other).most_common(10)
+    other = set(get_hotwords(text, ['NOUN'], nlp))
+    most_common_other = Counter(other).most_common(5)
     most_common_other = [word for word, _ in most_common_other]
   
     return most_common_propn + most_common_other

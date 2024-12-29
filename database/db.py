@@ -282,5 +282,27 @@ def get_text(message_id):
         return message_text[0]
     else:
         return None
+    
+
+def get_messages_by_user_id(user_id):
+    channels = get_user_subscribed_channels(user_id)
+    channels_ids = list(channels.keys())
+    placeholders = ', '.join(['?'] * len(channels_ids))
+
+
+    conn = sqlite3.connect('subscriptions.db')
+    cursor = conn.cursor()
+
+    cursor.execute(f"""
+                   SELECT text 
+                   FROM Messages 
+                   WHERE channel_id IN ({placeholders})
+                   AND created_at >= DATETIME('now', '-24 hours')
+                   """, channels_ids)
+    
+    keywords_list = [row[0] for row in cursor.fetchall()]
+    keywords = " ".join(keywords_list)
+
+    return keywords
 
 create_database()

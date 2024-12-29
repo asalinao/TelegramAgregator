@@ -5,3 +5,4 @@ spacy==3.8.3
 spacy_langdetect==0.1.2
 stop_words==2018.7.23
 Telethon==1.38.1
+wordcloud

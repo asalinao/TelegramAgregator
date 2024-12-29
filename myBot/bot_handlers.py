@@ -12,7 +12,7 @@ from services.translator import translate_text
 from telegramClient.client_methods import join_channel, leave_from_channel
 from myBot.states import FSM
 from database.db import add_user, add_channel_and_subscription, remove_subscription, get_user_subscribed_channels, \
-    check_channel_exists, get_text, add_message, delete_text, add_text
+    check_channel_exists, get_text, add_message, delete_text, add_text, get_messages_by_user_id
 from services.wordcloud import cloud_generate
 
 
@@ -46,12 +46,19 @@ async def show_channel_list(message: Message):
 
 @router.message(F.text == 'Show 24h wordcloud', StateFilter(default_state))
 async def show_wordcloud_24(message: Message):
-    filename = f'plot{str(message.chat.id)}.png'
-    cloud_generate(message.chat.id, filename)
+    keywords = get_messages_by_user_id(message.chat.id)
 
-    photo = FSInputFile(filename)
-    await message.answer_photo(photo=photo)
-    os.remove(filename)
+    if len(keywords) == 0:
+        await message.answer('We need at least 1 word to plot a word cloud, got 0.')
+
+    else:
+        filename = f'plot{str(message.chat.id)}.png'
+
+        cloud_generate(keywords, filename)
+
+        photo = FSInputFile(filename)
+        await message.answer_photo(photo=photo)
+        os.remove(filename)
 
     
 
