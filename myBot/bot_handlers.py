@@ -141,10 +141,10 @@ async def translate_text_callback(callback: CallbackQuery):
 
     if callback.message.caption:
         await callback.message.edit_caption(caption=translated_text, reply_markup=translate_back(button))
+        add_text(message_id=callback.message.message_id, text=callback.message.caption)
     else:
         await callback.message.edit_text(text=translated_text, reply_markup=translate_back(button))
-
-    add_text(message_id=callback.message.message_id, text=callback.message.text)
+        add_text(message_id=callback.message.message_id, text=callback.message.text)
 
 
 @router.callback_query(F.data == 'view_original', StateFilter(default_state))
