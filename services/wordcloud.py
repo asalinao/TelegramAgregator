@@ -17,7 +17,8 @@ def cloud_generate(keywords, filename):
                         margin=20, 
                         max_words = 20,
                         colormap='winter', 
-                        collocations=False, 
+                        collocations=False,
+                        min_word_length = 3,
                         stopwords = STOPWORDS).generate(keywords)
     
     plt.figure(figsize=(40, 30))

@@ -51,13 +51,20 @@ async def handler_album(event):
             media_group.add_audio(media=FSInputFile(file))
 
     for user_id in users:
-        await bot.send_media_group(chat_id=user_id, media=media_group.build())
-        await bot.send_message(
-            user_id,
-            text,
-            reply_markup=link_button(chat, link),
-            parse_mode='Markdown'
-        )
+        try:
+            await bot.send_media_group(chat_id=user_id, media=media_group.build())
+            await bot.send_message(
+                user_id,
+                text,
+                reply_markup=link_button(chat, link),
+                parse_mode='Markdown'
+            )
+        except Exception as ex:
+             await bot.send_message(
+                user_id,
+                ex.message,
+                reply_markup=link_button(chat, link)
+            )
 
     for media in media_list:
         os.remove(media)
@@ -81,14 +88,23 @@ async def handler_single(event):
     if message.photo:
         photo = await event.download_media()
         for user_id in users:
-            await bot.send_photo(user_id, photo=FSInputFile(photo), caption=text, reply_markup=link_button(chat, link), parse_mode='Markdown')
+            try:
+                await bot.send_photo(user_id, photo=FSInputFile(photo), caption=text, reply_markup=link_button(chat, link), parse_mode='Markdown')
+            except Exception as ex:
+                await bot.send_message(user_id, ex.message , reply_markup=link_button(chat, link))
         os.remove(photo)
     elif message.document:
         document = await event.download_media()
         for user_id in users:
-            await bot.send_document(user_id, document=FSInputFile(document), caption=text,
-                                    reply_markup=link_button(chat, link), parse_mode='Markdown')
+            try:
+                await bot.send_document(user_id, document=FSInputFile(document), caption=text,
+                                        reply_markup=link_button(chat, link), parse_mode='Markdown')
+            except Exception as ex:
+                await bot.send_message(user_id, ex.message , reply_markup=link_button(chat, link))
         os.remove(document)
     else:
         for user_id in users:
-            await bot.send_message(user_id, text, reply_markup=link_button(chat, link), parse_mode='Markdown')
+            try:
+                await bot.send_message(user_id, text, reply_markup=link_button(chat, link), parse_mode='Markdown')
+            except Exception as ex:
+                await bot.send_message(user_id, ex.message , reply_markup=link_button(chat, link))
