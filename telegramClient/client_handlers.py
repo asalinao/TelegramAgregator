@@ -3,6 +3,7 @@ from aiogram import Bot
 from aiogram.types import FSInputFile
 from aiogram.utils.media_group import MediaGroupBuilder
 from telethon import utils
+from telethon.tl.types import MessageMediaDocument, DocumentAttributeSticker
 
 from database.db import get_subscribed_users, get_channel_link_by_id, add_message
 from config import BOT_TOKEN
@@ -73,6 +74,12 @@ async def handler_album(event):
 
 async def handler_single(event):
     message = event.message
+    
+    if isinstance(message.media, MessageMediaDocument):
+        for attr in message.media.document.attributes:
+            if isinstance(attr, DocumentAttributeSticker):
+                return
+
     chat = event.chat.title
     chat_id = int(utils.resolve_id(event.chat_id)[0])
     message_id = event.id
