@@ -64,7 +64,7 @@ async def handler_album(event):
              await bot.send_message(
                 user_id,
                 ex.message,
-                reply_markup=link_button(chat, link)
+                reply_markup=link_button('Link to error message', link)
             )
 
     for media in media_list:
@@ -74,7 +74,7 @@ async def handler_album(event):
 
 async def handler_single(event):
     message = event.message
-    
+
     if isinstance(message.media, MessageMediaDocument):
         for attr in message.media.document.attributes:
             if isinstance(attr, DocumentAttributeSticker):
@@ -98,7 +98,7 @@ async def handler_single(event):
             try:
                 await bot.send_photo(user_id, photo=FSInputFile(photo), caption=text, reply_markup=link_button(chat, link), parse_mode='Markdown')
             except Exception as ex:
-                await bot.send_message(user_id, ex.message , reply_markup=link_button(chat, link))
+                await bot.send_message(user_id, ex.message , reply_markup=link_button('Link to error message', link))
         os.remove(photo)
     elif message.document:
         document = await event.download_media()
@@ -107,11 +107,11 @@ async def handler_single(event):
                 await bot.send_document(user_id, document=FSInputFile(document), caption=text,
                                         reply_markup=link_button(chat, link), parse_mode='Markdown')
             except Exception as ex:
-                await bot.send_message(user_id, ex.message , reply_markup=link_button(chat, link))
+                await bot.send_message(user_id, ex.message , reply_markup=link_button('Link to error message', link))
         os.remove(document)
     else:
         for user_id in users:
             try:
                 await bot.send_message(user_id, text, reply_markup=link_button(chat, link), parse_mode='Markdown')
             except Exception as ex:
-                await bot.send_message(user_id, ex.message , reply_markup=link_button(chat, link))
+                await bot.send_message(user_id, ex.message , reply_markup=link_button('Link to error message', link))
