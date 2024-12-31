@@ -41,7 +41,7 @@ def get_hotwords(text, tags, nlp):
     url_pattern = re.compile(r'https?://\S+|www\.\S+')
 
     for token in doc:
-        if token.text in nlp.Defaults.stop_words or token.text in punctuation or token.text.strip() in MY_STOPWORDS:
+        if token.lemma_ in nlp.Defaults.stop_words or token.text in punctuation or token.lemma_ in MY_STOPWORDS:
             continue
         if url_pattern.match(token.text):  
             continue
