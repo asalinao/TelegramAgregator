@@ -9,7 +9,7 @@ import re
 MY_STOPWORDS = {'http', 'https', 'gmgn', 'gm', 'gn', 'airdrop', 'early', 'wallet', 'claim', 'discord', 'user',
                  'email', 'season', 'code', 'task', 'submit', 'nft', 'com', 'app', 'token', 'google', 'remind',
                  'notice', 'status', 'article', 'xyz', 'feed', 'edition', 'www', 'gle', 'forms', 'twitter', 
-                 'emoji', 'otc', 'ceo'}
+                 'emoji', 'otc', 'ceo', 'web3'}
 
 def detect_language(text):
     nlp = spacy.load("en_core_web_sm")
