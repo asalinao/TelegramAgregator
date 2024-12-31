@@ -34,8 +34,7 @@ async def handler_album(event):
 
     if text:
         keywords_string = " ".join(get_all_hotwords(text))
-        if keywords_string:
-            add_message(chat_id, keywords_string, text)
+        add_message(chat_id, keywords_string, text)
 
     media_group = MediaGroupBuilder()
     media_list = []
@@ -91,8 +90,7 @@ async def handler_single(event):
 
     if text:
         keywords_string = " ".join(get_all_hotwords(text))
-        if keywords_string:
-            add_message(chat_id, keywords_string, text)
+        add_message(chat_id, keywords_string, text)
 
     if message.photo:
         photo = await event.download_media()
