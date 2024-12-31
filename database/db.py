@@ -237,7 +237,7 @@ def add_message(channel_id, text, message_text):
     # Добавление сообщения в таблицу
     cursor.execute('''
             INSERT INTO Messages (channel_id, text, message_text)
-            VALUES (?, ?)
+            VALUES (?, ?, ?)
         ''', (channel_id, text, message_text))
 
     conn.commit()
