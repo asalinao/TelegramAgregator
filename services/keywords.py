@@ -33,7 +33,7 @@ def translate_text_to_en(text):
     return translated_text
 
 
-def get_hotwords(text, tags, nlp, custom_stop_words):
+def get_hotwords(text, tags, nlp, custom_stop_words={}):
     result = []
     pos_tag = tags
     doc = nlp(text.lower()) 
