@@ -39,6 +39,7 @@ def create_database():
             CREATE TABLE IF NOT EXISTS Messages (
                 channel_id INTEGER,
                 text TEXT,
+                message_text TEXT,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (channel_id) REFERENCES Channels (channel_id)
             )
@@ -229,15 +230,15 @@ def get_channel_link_by_id(channel_id):
         return None
 
 
-def add_message(channel_id, text):
+def add_message(channel_id, text, message_text):
     conn = sqlite3.connect('subscriptions.db')
     cursor = conn.cursor()
 
     # Добавление сообщения в таблицу
     cursor.execute('''
-            INSERT INTO Messages (channel_id, text)
+            INSERT INTO Messages (channel_id, text, message_text)
             VALUES (?, ?)
-        ''', (channel_id, text))
+        ''', (channel_id, text, message_text))
 
     conn.commit()
     conn.close()
