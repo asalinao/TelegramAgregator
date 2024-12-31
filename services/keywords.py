@@ -6,10 +6,6 @@ from collections import Counter
 from string import punctuation
 import re
 
-MY_STOPWORDS = {'http', 'https', 'gmgn', 'gm', 'gn', 'airdrop', 'early', 'wallet', 'claim', 'discord', 'user',
-                 'email', 'season', 'code', 'task', 'submit', 'nft', 'com', 'app', 'token', 'google', 'remind',
-                 'notice', 'status', 'article', 'xyz', 'feed', 'edition', 'www', 'gle', 'forms', 'twitter', 
-                 'emoji', 'otc', 'ceo', 'web3'}
 
 def detect_language(text):
     nlp = spacy.load("en_core_web_sm")
@@ -33,15 +29,10 @@ def translate_text_to_en(text):
     return translated_text
 
 
-def get_hotwords(text, tags, nlp, custom_stop_words={}):
+def get_hotwords(text, tags, nlp):
     result = []
     pos_tag = tags
     doc = nlp(text.lower()) 
-
-    if custom_stop_words:
-        for word in custom_stop_words:
-            nlp.Defaults.stop_words.add(word)
-            nlp.vocab[word].is_stop = True
 
     url_pattern = re.compile(r'https?://\S+|www\.\S+')
 
@@ -69,7 +60,7 @@ def get_all_hotwords(text):
         nlp = spacy.load("en_core_web_sm")
         # flag = False
 
-    propn = set(get_hotwords(text, 'PROPN', nlp, MY_STOPWORDS))
+    propn = set(get_hotwords(text, 'PROPN', nlp))
     most_common_propn = Counter(propn).most_common(5)
     most_common_propn = [word for word, _ in most_common_propn]
 
