@@ -3,7 +3,9 @@ import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 from stop_words import get_stop_words
 
-MY_STOPWORDS = ['http', 'https', 'gmgn', 'gm', 'gn', 'airdrop', 'early', 'wallet', 'claim', 'discord', 'user', 'email', 'season', 'code', 'task', 'submit', 'nft', 'com', 'app', 'token']
+MY_STOPWORDS = ['http', 'https', 'gmgn', 'gm', 'gn', 'airdrop', 'early', 'wallet', 'claim', 'discord', 'user',
+                 'email', 'season', 'code', 'task', 'submit', 'nft', 'com', 'app', 'token', 'google', 'remind',
+                 'notice', 'status', 'article', 'xyz', 'feed', 'edition']
 
 def cloud_generate(keywords, filename):
     STOPWORDS_RU = get_stop_words('russian')
