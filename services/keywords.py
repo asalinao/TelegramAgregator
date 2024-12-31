@@ -6,7 +6,10 @@ from collections import Counter
 from string import punctuation
 import re
 
-
+MY_STOPWORDS = ['http', 'https', 'gmgn', 'gm', 'gn', 'airdrop', 'early', 'wallet', 'claim', 'discord', 'user',
+                 'email', 'season', 'code', 'task', 'submit', 'nft', 'com', 'app', 'token', 'google', 'remind',
+                 'notice', 'status', 'article', 'xyz', 'feed', 'edition', 'www', 'gle', 'forms', 'twitter', 
+                 'emoji']
 
 def detect_language(text):
     nlp = spacy.load("en_core_web_sm")
@@ -38,7 +41,7 @@ def get_hotwords(text, tags, nlp):
     url_pattern = re.compile(r'https?://\S+|www\.\S+')
 
     for token in doc:
-        if token.text in nlp.Defaults.stop_words or token.text in punctuation:
+        if token.text in nlp.Defaults.stop_words or token.text in punctuation or token.text in MY_STOPWORDS:
             continue
         if url_pattern.match(token.text):  
             continue
