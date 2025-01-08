@@ -54,7 +54,6 @@ def get_all_hotwords(text):
         text = translate_text_to_en(text)
 
     doc = nlp(text)
-    entities = [(ent.text, ent.start_char, ent.end_char, ent.label_) for ent in doc.ents]
 
     entity_texts = [ent.text for ent in doc.ents]
 
