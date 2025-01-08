@@ -306,4 +306,3 @@ def get_messages_by_user_id(user_id):
 
     return keywords
 
-create_database()
