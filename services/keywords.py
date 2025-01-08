@@ -48,29 +48,14 @@ def get_hotwords(text, tags, nlp):
 
 def get_all_hotwords(text):
     language = detect_language(text)
+    nlp = spacy.load("./crypto_model")
 
-    # flag = True
-    if language == 'ru':
-        nlp = spacy.load("ru_core_news_sm")
-        # flag = False
-    elif language == 'en':
-        nlp = spacy.load("en_core_web_sm")
-    else:
+    if language != 'ru' and language != 'en':
         text = translate_text_to_en(text)
-        nlp = spacy.load("en_core_web_sm")
-        # flag = False
 
-    propn = set(get_hotwords(text, 'PROPN', nlp))
-    most_common_propn = Counter(propn).most_common(5)
-    most_common_propn = [word for word, _ in most_common_propn]
+    doc = nlp(text)
+    entities = [(ent.text, ent.start_char, ent.end_char, ent.label_) for ent in doc.ents]
 
-    return most_common_propn
+    entity_texts = [ent.text for ent in doc.ents]
 
-    # if not flag:
-    #     return most_common_propn
-    
-    # other = set(get_hotwords(text, ['NOUN'], nlp))
-    # most_common_other = Counter(other).most_common(5)
-    # most_common_other = [word for word, _ in most_common_other]
-  
-    # return most_common_propn + most_common_other
+    return entity_texts
