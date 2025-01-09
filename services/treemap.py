@@ -23,3 +23,6 @@ def treemap_generate(values, labels, filename, top_n=None):
      
     plt.axis('off') 
     plt.savefig(filename, dpi=500, bbox_inches='tight', pad_inches=0)
+
+    plt.clf()
+    plt.close()
