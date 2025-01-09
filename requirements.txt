@@ -8,3 +8,4 @@ Telethon==1.38.1
 wordcloud
 squarify
 seaborn
+gc

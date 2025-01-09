@@ -1,4 +1,4 @@
-import sqlite3
+import gc
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 from stop_words import get_stop_words
@@ -29,4 +29,7 @@ def cloud_generate(keywords, filename):
     plt.axis("off") 
     plt.imshow(wordcloud) 
     plt.savefig(filename, bbox_inches='tight',  pad_inches=0) 
+
+    del wordcloud
+    gc.collect
 
