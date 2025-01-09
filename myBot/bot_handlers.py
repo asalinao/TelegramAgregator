@@ -25,7 +25,8 @@ async def start_handler(message: Message):
     add_user(message.chat.id, message.chat.username, message.chat.first_name, message.chat.last_name)
     await message.answer(
         "It`s aggregator bot!\n\nVisit my GitHub page to learn how to use me.\ngithub.com/asalinao/TelegramAgregator/tree/master",
-        reply_markup=main_keyboard
+        reply_markup=main_keyboard,
+        disable_web_page_preview=True
     )
 
 
@@ -125,7 +126,9 @@ async def go_back(callback: CallbackQuery):
     await callback.message.edit_reply_markup(
         reply_markup=None
     )
-    await callback.message.answer('You are now in the main menu!\n\nVisit my GitHub page to learn how to use me.\ngithub.com/asalinao/TelegramAgregator/tree/master', reply_markup=main_keyboard)
+    await callback.message.answer('You are now in the main menu!\n\nVisit my GitHub page to learn how to use me.\ngithub.com/asalinao/TelegramAgregator/tree/master',
+                                   reply_markup=main_keyboard,
+                                   disable_web_page_preview=True)
 
 
 @router.callback_query(F.data == 'translate_text', StateFilter(default_state))
