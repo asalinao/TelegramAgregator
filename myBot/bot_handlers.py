@@ -24,7 +24,7 @@ router = Router()
 async def start_handler(message: Message):
     add_user(message.chat.id, message.chat.username, message.chat.first_name, message.chat.last_name)
     await message.answer(
-        "It`s aggregator bot!",
+        "It`s aggregator bot!\n\nVisit my GitHub page to learn how to use me.\ngithub.com/asalinao/TelegramAgregator/tree/master",
         reply_markup=main_keyboard
     )
 
