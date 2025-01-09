@@ -11,7 +11,7 @@ def treemap_generate(values, labels, filename):
         sizes=values,
         label=labels,
         color = sb.color_palette("crest", len(values)),
-        text_kwargs={'color':'white', 'fontsize':10,'weight':'bold'},
+        text_kwargs={'color':'white', 'fontsize':7,'weight':'bold'},
         ec = 'white'
         )
      
