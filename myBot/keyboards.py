@@ -4,9 +4,10 @@ from myBot.callbackFactory import ButtonsCallbackFactory
 
 show_my_channel_list = KeyboardButton(text='Show my channel list')
 show_wordcloud_24 = KeyboardButton(text='Show 24h wordcloud')
+show_treemap_24 = KeyboardButton(text='Show 24h tickers')
 
 main_keyboard = ReplyKeyboardMarkup(
-    keyboard=[[show_my_channel_list], [show_wordcloud_24]],
+    keyboard=[[show_my_channel_list], [show_wordcloud_24], [show_treemap_24]],
     resize_keyboard=True
 )
 

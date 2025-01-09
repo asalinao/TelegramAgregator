@@ -55,6 +55,14 @@ def create_database():
                 text TEXT
             )
         ''')
+         # Создание таблицы "Tickers"
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS Tickers (
+                channel_id INTEGER,
+                ticker TEXT,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
 
         # Сохранение изменений и закрытие соединения
         conn.commit()
@@ -307,5 +315,42 @@ def get_keywords_by_user_id(user_id):
     keywords_list = [row[0] for row in cursor.fetchall()]
     keywords = " ".join(keywords_list)
 
+    conn.close()
+
     return keywords
 
+def add_ticker(channel_id, ticker):
+    conn = sqlite3.connect('subscriptions.db')
+    cursor = conn.cursor()
+
+    # Добавление сообщения в таблицу
+    cursor.execute('''
+            INSERT INTO Tickers (channel_id, ticker)
+            VALUES (?, ?)
+        ''', (channel_id, ticker))
+
+    conn.commit()
+    conn.close()
+
+def get_tickers_by_user_id(user_id):
+    channels = get_user_subscribed_channels(user_id)
+    channels_ids = list(channels.keys())
+    placeholders = ', '.join(['?'] * len(channels_ids))
+
+    conn = sqlite3.connect('subscriptions.db')
+    cursor = conn.cursor()
+
+    cursor.execute(f"""
+                   SELECT ticker, COUNT(*)
+                   FROM Tickers
+                   WHERE channel_id IN ({placeholders})
+                   AND created_at >= DATETIME('now', '-24 hours')
+                   GROUP BY ticker
+                   """, channels_ids)
+    
+    rows = cursor.fetchall()
+    ticker_counts = {row[0]: row[1] for row in rows}
+
+    conn.close()
+
+    return ticker_counts

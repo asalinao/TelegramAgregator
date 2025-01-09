@@ -12,9 +12,9 @@ from services.translator import translate_text
 from telegramClient.client_methods import join_channel, leave_from_channel
 from myBot.states import FSM
 from database.db import add_user, add_channel_and_subscription, remove_subscription, get_user_subscribed_channels, \
-    check_channel_exists, get_text, delete_text, add_text, get_keywords_by_user_id
+    check_channel_exists, get_text, delete_text, add_text, get_keywords_by_user_id, get_tickers_by_user_id
 from services.wordcloud import cloud_generate
-
+from services.treemap import treemap_generate
 
 
 router = Router()
@@ -53,7 +53,7 @@ async def show_wordcloud_24(message: Message):
         await message.answer('We need at least 1 word to plot a word cloud, got 0.')
 
     else:
-        filename = f'plot{str(message.chat.id)}.png'
+        filename = f'wordcloud{str(message.chat.id)}.png'
 
         cloud_generate(keywords, filename)
 
@@ -61,8 +61,25 @@ async def show_wordcloud_24(message: Message):
         await message.answer_photo(photo=photo)
         os.remove(filename)
 
-    
 
+@router.message(F.text == 'Show 24h tickers', StateFilter(default_state))
+async def show_treemap_24(message: Message):
+    tickers = get_tickers_by_user_id(message.chat.id)
+    print(tickers)
+
+    if len(tickers) == 0:
+        await message.answer('We need at least 1 tiker to plot a treemap, got 0.')
+
+    else:
+        filename = f'treemap{str(message.chat.id)}.png'
+
+        treemap_generate(list(tickers.values()), list(tickers.keys()), filename)
+
+        photo = FSInputFile(filename)
+        await message.answer_photo(photo=photo)
+        os.remove(filename)
+
+    
 @router.callback_query(F.data == 'add_channel', StateFilter(default_state))
 async def add_channel(callback: CallbackQuery, state: FSMContext):
     await callback.message.edit_reply_markup(
