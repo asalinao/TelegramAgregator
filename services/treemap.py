@@ -11,7 +11,7 @@ def treemap_generate(values, labels, filename, top_n=None):
     
     values, labels = zip(*sorted_data)
 
-    labels = [f"${label}$\n{value}" for label, value in zip(labels, values)]
+    labels = [f"{label}\n{value}" for label, value in zip(labels, values)]
 
     squarify.plot(
         sizes=values,
