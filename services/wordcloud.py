@@ -30,6 +30,9 @@ def cloud_generate(keywords, filename):
     plt.imshow(wordcloud) 
     plt.savefig(filename, bbox_inches='tight',  pad_inches=0) 
 
+    plt.clf()
+    plt.close()
+    
     del wordcloud
     gc.collect
 
