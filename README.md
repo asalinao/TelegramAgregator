@@ -2,6 +2,8 @@
 
 This is a free aggregator for Telegram channels. It includes a feature powered by machine learning to generate keyword clouds, making it easy to track trends.
 
+**[BOT LINK](https://t.me/channel_agregator_bot)**
+
 [For questions and suggestions](t.me/prostodyraaa)
 ## How to use the bot
 To use, add channels or chats you are interested in by sending links to the bot. Works for both public and private channels, for channels with join request you need to wait for the approval of the request.
