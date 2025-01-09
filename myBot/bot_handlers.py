@@ -65,7 +65,6 @@ async def show_wordcloud_24(message: Message):
 @router.message(F.text == 'Show 24h tickers', StateFilter(default_state))
 async def show_treemap_24(message: Message):
     tickers = get_tickers_by_user_id(message.chat.id)
-    print(tickers)
 
     if len(tickers) == 0:
         await message.answer('We need at least 1 tiker to plot a treemap, got 0.')
@@ -73,7 +72,7 @@ async def show_treemap_24(message: Message):
     else:
         filename = f'treemap{str(message.chat.id)}.png'
 
-        treemap_generate(list(tickers.values()), list(tickers.keys()), filename)
+        treemap_generate(list(tickers.values()), list(tickers.keys()), filename, 10)
 
         photo = FSInputFile(filename)
         await message.answer_photo(photo=photo)

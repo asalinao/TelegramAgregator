@@ -3,9 +3,15 @@ import squarify
 import seaborn as sb
 
 
-def treemap_generate(values, labels, filename):
-    for i in range(len(labels)):
-        labels[i] = f"{labels[i]}\n{values[i]}"
+def treemap_generate(values, labels, filename, top_n=None):
+    sorted_data = sorted(zip(values, labels), reverse=True, key=lambda x: x[0])
+    
+    if top_n:
+        sorted_data = sorted_data[:top_n]
+    
+    values, labels = zip(*sorted_data)
+
+    labels = [f"${label}$\n{value}" for label, value in zip(labels, values)]
 
     squarify.plot(
         sizes=values,
