@@ -22,8 +22,14 @@ Sometimes errors may occur when parsing or sending messages. In this case, the b
 
 ![image](https://github.com/user-attachments/assets/3358b608-b808-4c53-9c23-c946b2594798)
 
-## Word cloud generation
+## Word cloud 
 The bot extracts keywords from each received message using a model trained on real marked-up messages and builds a word cloud based on them. With the help of the cloud you can track the main topics and trends in your infofield
 
 ![image](https://github.com/user-attachments/assets/be7f21f1-97b0-4907-bcab-b10cdb2dbebc)
+
+## Tickers treemap
+Also coin tickers are extracted from each post and you can generate a tree map. It will show the tickers and the number of times they have been mentioned in the last 24 hours.
+
+![image](https://github.com/user-attachments/assets/59eb0545-8523-477d-9c66-3aa18fc361a6)
+
 
