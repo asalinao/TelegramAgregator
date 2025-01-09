@@ -72,7 +72,7 @@ async def show_treemap_24(message: Message):
     else:
         filename = f'treemap{str(message.chat.id)}.png'
 
-        treemap_generate(list(tickers.values()), list(tickers.keys()), filename, 10)
+        treemap_generate(list(tickers.values()), list(tickers.keys()), filename, 15)
 
         photo = FSInputFile(filename)
         await message.answer_photo(photo=photo)
