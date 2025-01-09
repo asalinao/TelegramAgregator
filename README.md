@@ -23,4 +23,5 @@ Sometimes errors may occur when parsing or sending messages. In this case, the b
 ## Word cloud generation
 The bot extracts keywords from each received message using a model trained on real marked-up messages and builds a word cloud based on them. With the help of the cloud you can track the main topics and trends in your infofield
 
-![image](https://github.com/user-attachments/assets/46f1afd4-0f49-4954-98e9-25939f2ecd07)
+![image](https://github.com/user-attachments/assets/be7f21f1-97b0-4907-bcab-b10cdb2dbebc)
+
