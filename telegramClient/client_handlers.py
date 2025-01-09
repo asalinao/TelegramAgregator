@@ -5,7 +5,7 @@ from aiogram.utils.media_group import MediaGroupBuilder
 from telethon import utils
 from telethon.tl.types import MessageMediaDocument, DocumentAttributeSticker
 
-from database.db import get_subscribed_users, get_channel_link_by_id, add_message
+from database.db import get_subscribed_users, get_channel_link_by_id, add_keywords
 from config import BOT_TOKEN
 from myBot.keyboards import link_button
 from services.keywords import get_all_hotwords
@@ -34,7 +34,7 @@ async def handler_album(event):
 
     if text:
         keywords_string = " ".join(get_all_hotwords(text))
-        add_message(chat_id, keywords_string, text)
+        add_keywords(chat_id, text, keywords_string)
 
     media_group = MediaGroupBuilder()
     media_list = []
@@ -90,7 +90,7 @@ async def handler_single(event):
 
     if text:
         keywords_string = " ".join(get_all_hotwords(text))
-        add_message(chat_id, keywords_string, text)
+        add_keywords(chat_id, text, keywords_string)
 
     if message.photo:
         photo = await event.download_media()

@@ -12,7 +12,7 @@ from services.translator import translate_text
 from telegramClient.client_methods import join_channel, leave_from_channel
 from myBot.states import FSM
 from database.db import add_user, add_channel_and_subscription, remove_subscription, get_user_subscribed_channels, \
-    check_channel_exists, get_text, add_message, delete_text, add_text, get_messages_by_user_id
+    check_channel_exists, get_text, delete_text, add_text, get_keywords_by_user_id
 from services.wordcloud import cloud_generate
 
 
@@ -22,7 +22,7 @@ router = Router()
 
 @router.message(Command("start"), StateFilter(default_state))
 async def start_handler(message: Message):
-    add_user(message.chat.id)
+    add_user(message.chat.id, message.chat.username, message.chat.first_name, message.chat.last_name)
     await message.answer(
         "It`s aggregator bot!",
         reply_markup=main_keyboard
@@ -46,7 +46,7 @@ async def show_channel_list(message: Message):
 
 @router.message(F.text == 'Show 24h wordcloud', StateFilter(default_state))
 async def show_wordcloud_24(message: Message):
-    keywords = get_messages_by_user_id(message.chat.id)
+    keywords = get_keywords_by_user_id(message.chat.id)
 
     if len(keywords) == 0:
         await message.answer('We need at least 1 word to plot a word cloud, got 0.')

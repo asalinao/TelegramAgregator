@@ -10,7 +10,10 @@ def create_database():
         # Создание таблицы "Пользователи"
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS Users (
-                user_id INTEGER PRIMARY KEY
+                user_id INTEGER PRIMARY KEY,
+                username TEXT, 
+                first_name TEXT,
+                last_name TEXT
             )
         ''')
 
@@ -38,8 +41,8 @@ def create_database():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS Messages (
                 channel_id INTEGER,
-                text TEXT,
                 message_text TEXT,
+                keywords TEXT,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (channel_id) REFERENCES Channels (channel_id)
             )
@@ -62,7 +65,7 @@ def create_database():
         print(f"Ошибка при создании базы данных: {e}")
 
 
-def add_user(user_id):
+def add_user(user_id, username, first_name, last_name):
     conn = sqlite3.connect('subscriptions.db')
     cursor = conn.cursor()
 
@@ -70,7 +73,7 @@ def add_user(user_id):
     existing_user = cursor.fetchone()
 
     if not existing_user:
-        cursor.execute('INSERT INTO Users (user_id) VALUES (?)', (user_id,))
+        cursor.execute('INSERT INTO Users (user_id, username, first_name, last_name) VALUES (?, ?, ?, ?)', (user_id, username, first_name, last_name))
 
     conn.commit()
     conn.close()
@@ -230,15 +233,15 @@ def get_channel_link_by_id(channel_id):
         return None
 
 
-def add_message(channel_id, text, message_text):
+def add_keywords(channel_id, message_text, keywords):
     conn = sqlite3.connect('subscriptions.db')
     cursor = conn.cursor()
 
     # Добавление сообщения в таблицу
     cursor.execute('''
-            INSERT INTO Messages (channel_id, text, message_text)
+            INSERT INTO Messages (channel_id, message_text, keywords)
             VALUES (?, ?, ?)
-        ''', (channel_id, text, message_text))
+        ''', (channel_id, message_text, keywords))
 
     conn.commit()
     conn.close()
@@ -285,7 +288,7 @@ def get_text(message_id):
         return None
     
 
-def get_messages_by_user_id(user_id):
+def get_keywords_by_user_id(user_id):
     channels = get_user_subscribed_channels(user_id)
     channels_ids = list(channels.keys())
     placeholders = ', '.join(['?'] * len(channels_ids))
@@ -295,7 +298,7 @@ def get_messages_by_user_id(user_id):
     cursor = conn.cursor()
 
     cursor.execute(f"""
-                   SELECT text 
+                   SELECT keywords 
                    FROM Messages 
                    WHERE channel_id IN ({placeholders})
                    AND created_at >= DATETIME('now', '-24 hours')
