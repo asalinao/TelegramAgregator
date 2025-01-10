@@ -30,7 +30,8 @@ The bot extracts keywords from each received message using a model trained on re
 ## Tickers treemap
 Also coin tickers are extracted from each post and you can generate a tree map. It will show the tickers and the number of times they have been mentioned in the last 24 hours.
 
-![image](https://github.com/user-attachments/assets/0f9f6603-1889-487d-bd42-ae7a59e49219)
+![image](https://github.com/user-attachments/assets/5f06ae90-c8dd-438e-aa55-2bd507010199)
+
 
 
 
