@@ -3,11 +3,12 @@ import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 from stop_words import get_stop_words
 
+MY_STOPWORDS = ['btc', 'sol', 'eth']
 
 def cloud_generate(keywords, filename):
     STOPWORDS_RU = get_stop_words('russian')
     STOPWORDS_EN = get_stop_words('en')
-    STOPWORDS = STOPWORDS_RU + STOPWORDS_EN
+    STOPWORDS = STOPWORDS_RU + STOPWORDS_EN + MY_STOPWORDS
 
     keywords = keywords.lower()
     keywords = keywords.replace('bitcoin', 'btc')
