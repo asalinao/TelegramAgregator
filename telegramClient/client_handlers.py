@@ -35,10 +35,10 @@ async def handler_album(event):
         return
 
     if text:
-        tickers, keywords = get_all_hotwords(text)
+        tickers, keywords, annotation = get_all_hotwords(text)
 
         keywords_string = " ".join(keywords)
-        add_keywords(chat_id, text, keywords_string)
+        add_keywords(chat_id, text, keywords_string, annotation)
 
         for ticker in tickers:
             add_ticker(chat_id, ticker)
@@ -99,10 +99,10 @@ async def handler_single(event):
         return
 
     if text:
-        tickers, keywords = get_all_hotwords(text)
+        tickers, keywords, annotation = get_all_hotwords(text)
 
         keywords_string = " ".join(keywords)
-        add_keywords(chat_id, text, keywords_string)
+        add_keywords(chat_id, text, keywords_string, annotation)
 
         for ticker in tickers:
             add_ticker(chat_id, ticker)

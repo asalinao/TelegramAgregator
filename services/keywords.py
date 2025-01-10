@@ -46,4 +46,32 @@ def get_all_hotwords(text):
             tickers[i] = tickers[i].upper()
             i += 1
 
-    return tickers, keywords
+    annotations = []
+    for ent in doc.ents:
+        annotations.append({
+            "value": {
+                "start": ent.start_char,
+                "end": ent.end_char,
+                "text": ent.text,
+                "labels": [ent.label_]
+            },
+            "id": f"annotation_{ent.start_char}_{ent.end_char}",
+            "from_name": "label",
+            "to_name": "text",
+            "type": "labels",
+            "origin": "model"
+        })
+
+    result_json = {
+        "annotations": [
+            {
+                "result": annotations,
+            }
+        ],
+        "data": {
+            "text": text
+        }
+    }
+
+    return tickers, keywords, result_json
+

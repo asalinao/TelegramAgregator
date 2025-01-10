@@ -1,5 +1,5 @@
 import sqlite3
-
+import json
 
 def create_database():
     try:
@@ -43,6 +43,7 @@ def create_database():
                 channel_id INTEGER,
                 message_text TEXT,
                 keywords TEXT,
+                annotation_json TEXT,
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (channel_id) REFERENCES Channels (channel_id)
             )
@@ -241,15 +242,16 @@ def get_channel_link_by_id(channel_id):
         return None
 
 
-def add_keywords(channel_id, message_text, keywords):
+def add_keywords(channel_id, message_text, keywords, json_data):
     conn = sqlite3.connect('subscriptions.db')
     cursor = conn.cursor()
 
-    # Добавление сообщения в таблицу
+    json_string = json.dumps(json_data)
+
     cursor.execute('''
-            INSERT INTO Messages (channel_id, message_text, keywords)
-            VALUES (?, ?, ?)
-        ''', (channel_id, message_text, keywords))
+            INSERT INTO Messages (channel_id, message_text, keywords, annotation_json)
+            VALUES (?, ?, ?, ?)
+        ''', (channel_id, message_text, keywords, json_string))
 
     conn.commit()
     conn.close()
