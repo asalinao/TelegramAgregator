@@ -16,7 +16,7 @@ def treemap_generate(values, labels, filename, top_n=None):
     squarify.plot(
         sizes=values,
         label=labels,
-        color = sb.color_palette("crest", len(values)),
+        color = sb.color_palette("crest", len(values))[::-1],
         text_kwargs={'color':'white', 'fontsize':7,'weight':'bold'},
         ec = 'white'
         )
