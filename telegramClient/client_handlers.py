@@ -42,6 +42,9 @@ async def handler_album(event):
 
         for ticker in tickers:
             add_ticker(chat_id, ticker)
+        
+        if len(text) > 4096:
+            text = text[:4096]
 
 
     media_group = MediaGroupBuilder()
@@ -106,6 +109,9 @@ async def handler_single(event):
 
         for ticker in tickers:
             add_ticker(chat_id, ticker)
+        
+        if len(text) > 4096:
+            text = text[:4096]
 
     if message.photo:
         photo = await event.download_media()
