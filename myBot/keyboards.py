@@ -65,7 +65,7 @@ def channel_remove_keyboard(channels_dict):
     for key, value in channels_dict.items():
         builder.button(
             text=f"{value[0]} ({key})",
-            callback_data=ButtonsCallbackFactory(id=key, name=value[0], link=value[1].split('/')[-1])
+            callback_data=ButtonsCallbackFactory(id=key, link=value[1].split('/')[-1])
         )
 
     builder.adjust(1)
